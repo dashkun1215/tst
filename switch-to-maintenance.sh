@@ -126,8 +126,6 @@ function setVars() {
 
   else
     
-    HOSTED_ZONES_MAP+=([knowledgevision.com]=ZLLQ99KLK5KSE)
-    HOSTED_ZONES_MAP+=([kvcentral.com]=Z25H6SN9C8JR5G)
     case $ACCOUNT_TYPE in
     dev)
       URL="https://dev.present.knowledgevision.com"
@@ -167,6 +165,8 @@ function setVars() {
       exit 1
       ;;
     esac
+    HOSTED_ZONES_MAP+=([knowledgevision.com]=ZLLQ99KLK5KSE)
+    HOSTED_ZONES_MAP+=([kvcentral.com]=Z25H6SN9C8JR5G)
   fi
 
 }
