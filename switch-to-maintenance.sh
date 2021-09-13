@@ -122,23 +122,46 @@ function setVars() {
     else
       echo "Maintenance is already running"
       exit 1
-
-
+    fi
 
   else
+    
     HOSTED_ZONES_MAP+=([knowledgevision.com]=ZLLQ99KLK5KSE)
     HOSTED_ZONES_MAP+=([kvcentral.com]=Z25H6SN9C8JR5G)
     case $ACCOUNT_TYPE in
     dev)
-      HOSTED_ZONES_MAP+=([dev-videoshowcase.net]=Z3MLEWMIUXZTQB)
+      URL="https://dev.present.knowledgevision.com"
+      response=$(curl -s -w "%{http_code}" $URL)
+      http_code=$(tail -n1 <<< "$response")
+      if [ "${http_code}" != "503" ]; then
+        HOSTED_ZONES_MAP+=([dev-videoshowcase.net]=Z3MLEWMIUXZTQB)
+      else
+        echo "Maintenance is already running"
+        exit 1
+      fi
       ;;
     stage)
-      HOSTED_ZONES_MAP+=([stage-videoshowcase.net]=Z1F79KEKAHQN1U)
+      URL="https://stage.present.knowledgevision.com"
+      response=$(curl -s -w "%{http_code}" $URL)
+      http_code=$(tail -n1 <<< "$response")
+      if [ "${http_code}" != "503" ]; then
+        HOSTED_ZONES_MAP+=([stage-videoshowcase.net]=Z1F79KEKAHQN1U)
+      else
+        echo "Maintenance is already running"
+        exit 1
+      fi
       ;;
     prod)
-      HOSTED_ZONES_MAP+=([videoshowcase.net]=Z1IOEBUAPWIVFX)
+      URL="https://present.knowledgevision.com"
+      response=$(curl -s -w "%{http_code}" $URL)
+      http_code=$(tail -n1 <<< "$response")
+      if [ "${http_code}" != "503" ]; then
+        HOSTED_ZONES_MAP+=([videoshowcase.net]=Z1IOEBUAPWIVFX)
+      else
+        echo "Maintenance is already running"
+        exit 1
       ;;
-
+      fi
     *)
       echo "-a Account type should be dev|stage|prod"
       exit 1
